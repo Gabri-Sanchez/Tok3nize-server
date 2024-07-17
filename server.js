@@ -36,7 +36,7 @@ BigInt.prototype.toJSON = function () {
 const provider = new EtherscanProvider(process.env.NETWORK_NAME, process.env.ETHERSCAN_API_KEY);
 
 //Contract address is provided by an argument that setup.ps1 gives after deploying the contract
-const contractAddress = options.contractAddress;
+const contractAddress = process.env.CONTRACT_ADDRESS;
 
 
 const wallet = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY, provider);
@@ -46,7 +46,7 @@ const contract = new ethers.Contract(contractAddress, abi, wallet);
 
 const app = express();
 
-app.use(cors());
+//app.use(cors());
 app.use(express.json());
 
 const corsOptions = {
