@@ -1,13 +1,13 @@
 //This script is meant for adding example data.
-
+require('dotenv').config();
 const { ethers, EtherscanProvider } = require('ethers');
 const  abi  = require('./abi.json')
 
 
-const provider = new EtherscanProvider(NETWORK_NAME, ETHERSCAN_API_KEY);
+const provider = new EtherscanProvider(process.env.NETWORK_NAME, process.env.ETHERSCAN_API_KEY);
 
 //Contract address goes here
-const contractAddress = CONTRACT_ADDRESS; 
+const contractAddress = process.env.CONTRACT_ADDRESS; 
 
 //console.log(ethers.utils.isAddress(contractAddress));
 const wallet = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY, provider);

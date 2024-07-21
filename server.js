@@ -5,7 +5,7 @@
 
 require('dotenv').config();
 const express = require('express');
-const { ethers , JsonRpcProvider, EtherscanProvider } = require('ethers');
+const { ethers , JsonRpcProvider, EtherscanProvider, InfuraProvider, WebSocketProvider } = require('ethers');
 const  abi = require('./abi.json');
 const cors = require('cors');
 const fs = require('fs');
@@ -33,8 +33,11 @@ BigInt.prototype.toJSON = function () {
 
 
 //Network is the name of the network, or the url
-const provider = new EtherscanProvider(process.env.NETWORK_NAME, process.env.ETHERSCAN_API_KEY);
-
+//const provider = new EtherscanProvider(process.env.NETWORK_NAME, process.env.ETHERSCAN_API_KEY);
+//const provider = new InfuraProvider("holesky", process.env.INFURA_API_KEY)
+//const provider = new JsonRpcProvider("https://holesky.infura.io/v3/690983828c38455ea9d29d847c0fc4c7");
+const provider = new WebSocketProvider("wss://sepolia.infura.io/ws/v3/690983828c38455ea9d29d847c0fc4c7")
+//const provider = new JsonRpcProvider("http://localhost:8545");
 //Contract address is provided by an argument that setup.ps1 gives after deploying the contract
 const contractAddress = process.env.CONTRACT_ADDRESS;
 
@@ -46,7 +49,7 @@ const contract = new ethers.Contract(contractAddress, abi, wallet);
 
 const app = express();
 
-//app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 const corsOptions = {
@@ -112,6 +115,7 @@ initialize();
 
 
 contract.on('Creation', async (prop, ownerId, ownerWallet) => {
+    console.log("Created")
     if(creations.length <4){
         creations.push({"property": prop, "owner": ownerId, "wallet": ownerWallet});
     } else{
@@ -120,6 +124,9 @@ contract.on('Creation', async (prop, ownerId, ownerWallet) => {
     }
     
 })
+
+
+
 
 /*
 contract.on('Deletion', async (prop, ownerId, ownerWallet) => {
@@ -169,7 +176,7 @@ app.listen(4000, () => {
 app.post('/api/createBuilding', cors(corsOptions), async(req, res) => {
 
     try{
-    //console.log("Creando propiedad \n");
+    console.log("Creando propiedad \n");
     
     const  { property } = req.body;
     //console.log(JSON.stringify(property) + "\n");
@@ -194,7 +201,7 @@ app.get('/api/getPropertiesByOwnerId', async(req, res) => {
         //console.log(ownerId + "\n");
         const value = await contract.getPropertiesByOwnerId(ownerId);
         await value;
-        //console.log("Result: " + value);
+        console.log("Result by oID: " + value);
 
         if (value.length == 0) {
             res.send(propertyNotFound);
