@@ -32,13 +32,15 @@ BigInt.prototype.toJSON = function () {
 
 
 
-//Network is the name of the network, or the url
+//Different providers can be used
+
 //const provider = new EtherscanProvider(process.env.NETWORK_NAME, process.env.ETHERSCAN_API_KEY);
-//const provider = new InfuraProvider("holesky", process.env.INFURA_API_KEY)
+//const provider = new InfuraProvider(process.env.NETWORK_NAME, process.env.INFURA_API_KEY)
 //const provider = new JsonRpcProvider("https://holesky.infura.io/v3/690983828c38455ea9d29d847c0fc4c7");
-const provider = new WebSocketProvider("wss://sepolia.infura.io/ws/v3/690983828c38455ea9d29d847c0fc4c7")
+const provider = new WebSocketProvider(process.env.INFURA_ENDPOINT_WEBSOCKET_URL)
 //const provider = new JsonRpcProvider("http://localhost:8545");
 //Contract address is provided by an argument that setup.ps1 gives after deploying the contract
+
 const contractAddress = process.env.CONTRACT_ADDRESS;
 
 
