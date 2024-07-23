@@ -54,10 +54,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-/* const corsOptions = {
+const corsOptions = {
     origin: process.env.ORIGIN_URL
 }
-    */
+
 
 
 
