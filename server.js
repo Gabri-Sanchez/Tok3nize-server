@@ -176,7 +176,7 @@ app.listen(4000, () => {
     console.log('Server running on port 4000');
 });
 
-app.post('/api/createBuilding', cors(corsOptions), async(req, res) => {
+app.post('/api/createBuilding', async(req, res) => {
 
     try{
     console.log("Creando propiedad \n");
